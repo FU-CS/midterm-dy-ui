@@ -128,6 +128,34 @@ public class CompleteBinaryTree {
         }
         return str;
     }
+    
+    public boolean question1() {
+    	return question1Helper(root);
+    }
+    private boolean question1Helper(Node node) {
+    	if (node == null)
+    		return true;
+    	if (node.left != null && node.data < node.left.data)
+    		return false;
+    	if (node.right != null && node.data < node.right.data)
+    		return false;
+    	return question1Helper(node.left) && question1Helper(node.right);
+    }
+    
+    public CompleteBinaryTree question2() {
+    	Node newRoot = this.question2Helper(root);
+    	CompleteBinaryTree clone = new CompleteBinaryTree();
+    	clone.root = newRoot;
+    	return clone;
+    }
+    private Node question2Helper(Node node) {
+    	if (node == null)
+    		return null;
+    	Node newNode = new Node(node.data);
+    	newNode.left = question2Helper(node.left);
+    	newNode.right = question2Helper(node.right);
+    	return newNode;
+    }
 
     public static void main(String[] args) {
         CompleteBinaryTree tree = new CompleteBinaryTree();
