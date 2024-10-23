@@ -6,6 +6,8 @@ package midterm;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 class CompleteBinaryTreeTest {
     @Test
     void insert() {
@@ -41,6 +43,87 @@ class CompleteBinaryTreeTest {
         tree.delete(3);
 
         assertEquals(tree.toString(), "1 2 4 ", "Deleting 3 should return '1 2 4'");
+    }
+    
+    @Test
+    void testQuestion1() {
+    	CompleteBinaryTree tree = new CompleteBinaryTree();
+    	assertEquals(true, tree.question1()); //testing empty tree
+    	tree.insert(9);
+    	tree.insert(8);
+    	tree.insert(5);
+    	tree.insert(7);
+    	tree.insert(6);
+    	tree.insert(2);
+    	assertEquals(true, tree.question1());
+    	
+    	CompleteBinaryTree tree2 = new CompleteBinaryTree();
+    	tree2.insert(9);
+    	tree2.insert(8);
+    	tree2.insert(5);
+    	tree2.insert(7);
+    	tree2.insert(6);
+    	tree2.insert(6);
+    	assertEquals(false, tree2.question1());
+    	
+    	CompleteBinaryTree tree3 = new CompleteBinaryTree();
+    	tree3.insert(9);
+    	tree3.insert(8);
+    	tree3.insert(5);
+    	tree3.insert(7);
+    	tree3.insert(8);
+    	tree3.insert(2);
+    	assertEquals(true, tree3.question1()); //testing for repetition in child
+    }
+    
+    @Test
+    void testQuestion2() {
+    	CompleteBinaryTree tree = new CompleteBinaryTree();
+    	tree.insert(9);
+    	tree.insert(8);
+    	tree.insert(5);
+    	tree.insert(7);
+    	tree.insert(6);
+    	tree.insert(2);
+    	
+    	CompleteBinaryTree clone = tree.question2();
+    	assertEquals(tree.toString(), clone.toString());
+    	assertEquals(false, duplicate(tree, clone));
+    	
+    	CompleteBinaryTree tree2 = new CompleteBinaryTree();
+    	assertEquals(null, tree2.question2().getRoot()); //empty tree
+    	}
+    
+    public static boolean duplicate(CompleteBinaryTree tree1, CompleteBinaryTree tree2) {
+    	ArrayList<Node> list1 = getList(tree1);
+    	ArrayList<Node> list2 = getList(tree2);
+    	for (Node x: list1) 
+    		if (contains(x, list2))
+    			return true;
+    	
+    	return false;
+    	
+    }
+    
+    public static boolean contains(Node node, ArrayList<Node> list) {
+    	for (Node x: list)
+    		if (x == node)
+    			return true;
+    	return false;
+    }
+    
+    public static ArrayList<Node> getList(CompleteBinaryTree tree){
+    	ArrayList<Node> list = new ArrayList<Node>();
+    	list.add(tree.getRoot());
+    	int i = 0;
+    	while (i < list.size()) {
+    		if (list.get(i).left != null)
+    			list.add(list.get(i).left);
+    		if (list.get(i).right != null)
+    			list.add(list.get(i).right);
+    		i++;
+    	}
+    	return list;
     }
 
 
